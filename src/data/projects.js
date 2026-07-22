@@ -14,7 +14,7 @@ export const projects = [
       "Real-time recognition system for the Colombian Sign Language (LSC) alphabet using computer vision and artificial intelligence.",
     image: signLanguageProject,
     technologies: ["Python", "OpenCV", "MediaPipe", "Machine Learning"],
-    githubUrl: "#",
+    githubUrl: "https://github.com/Juan38828/Asistente_Lenguaje_de_Senas.git",
     demoUrl: "#",
   },
 ];
