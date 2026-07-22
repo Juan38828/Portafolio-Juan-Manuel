@@ -55,7 +55,7 @@ const About = () => {
           </ul>
 
           <div>
-            <Button href="/CV_Juan_Manuel_Franco1.pdf" variant="outline" icon={FiDownload}>
+            <Button href="/CV_Juan_Manuel_Franco2.pdf" variant="outline" icon={FiDownload}>
               Download CV
             </Button>
           </div>
