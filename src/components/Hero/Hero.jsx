@@ -79,7 +79,7 @@ const Hero = () => {
             <Button href="#proyectos" icon={FiArrowRight}>
               View projects
             </Button>
-            <Button href="/CV_Juan_Manuel_Franco.pdf" variant="outline" icon={FiDownload}>
+            <Button href="/CV_Juan_Manuel_Franco1.pdf" variant="outline" icon={FiDownload}>
               Download CV
             </Button>
           </motion.div>
