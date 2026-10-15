@@ -24,7 +24,7 @@ const CertificateCard = ({ title, issuer, date, pdfUrl }) => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Abrir certificado: ${title}`}
-        className="inline-flex items-center gap-2 text-sm text-primary-soft hover:text-primary transition-colors"
+        className="inline-flex items-center gap-2 min-h-11 text-sm text-primary-soft hover:text-text transition-colors duration-200"
       >
         <FaFilePdf aria-hidden="true" /> Ver certificado
       </a>

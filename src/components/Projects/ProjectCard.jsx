@@ -21,7 +21,7 @@ const ProjectCard = ({ title, description, image, technologies, githubUrl, demoU
       viewport={{ once: true, amount: 0.25 }}
       whileHover={{ y: -6 }}
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="group flex flex-col rounded-2xl border border-border bg-bg-elevated/60 overflow-hidden transition-shadow duration-300 hover:border-primary/40 hover:shadow-[0_8px_40px_-12px_rgba(59,130,246,0.35)]"
+      className="surface-card group flex flex-col rounded-2xl border border-border overflow-hidden transition-shadow duration-300 hover:border-primary/40 hover:shadow-[0_8px_40px_-12px_rgba(59,130,246,0.35)]"
     >
       <div className="relative aspect-video overflow-hidden bg-bg-soft">
         {image ? (
@@ -61,7 +61,7 @@ const ProjectCard = ({ title, description, image, technologies, githubUrl, demoU
             target={githubUrl.startsWith("http") ? "_blank" : undefined}
             rel="noopener noreferrer"
             aria-label={`Repositorio de ${title} en GitHub`}
-            className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text transition-colors"
+            className="inline-flex items-center gap-2 min-h-11 text-sm text-text-muted hover:text-text transition-colors duration-200"
           >
             <FaGithub aria-hidden="true" /> Código
           </a>
@@ -70,7 +70,7 @@ const ProjectCard = ({ title, description, image, technologies, githubUrl, demoU
             target={demoUrl.startsWith("http") ? "_blank" : undefined}
             rel="noopener noreferrer"
             aria-label={`Demo en vivo de ${title}`}
-            className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-primary-soft transition-colors"
+            className="inline-flex items-center gap-2 min-h-11 text-sm text-text-muted hover:text-primary-soft transition-colors duration-200"
           >
             <FaArrowUpRightFromSquare aria-hidden="true" /> Demo
           </a>

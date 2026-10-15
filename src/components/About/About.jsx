@@ -23,7 +23,7 @@ const About = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto md:mx-0 w-40 h-40 sm:w-48 sm:h-48 rounded-2xl overflow-hidden border border-border shadow-xl"
+          className="mx-auto md:mx-0 w-40 h-40 sm:w-48 sm:h-48 md:w-full md:h-auto md:aspect-square rounded-3xl overflow-hidden border border-primary/20 shadow-[0_20px_60px_-20px_rgba(59,130,246,0.45)]"
         >
           <img
             src={profilePhoto}
@@ -55,7 +55,13 @@ const About = () => {
           </ul>
 
           <div>
-            <Button href="/CV_Juan_Manuel_Franco3.pdf" variant="outline" icon={FiDownload}>
+            <Button
+              href="/CV_Juan_Manuel_Franco3.pdf"
+              variant="outline"
+              icon={FiDownload}
+              download
+              doneLabel="CV downloaded!"
+            >
               Download CV
             </Button>
           </div>

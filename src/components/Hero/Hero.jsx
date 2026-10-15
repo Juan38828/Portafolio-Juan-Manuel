@@ -32,13 +32,17 @@ const Hero = () => {
           animate="visible"
           className="flex flex-col gap-3 text-center md:text-left order-2 md:order-1"
         >
-          <motion.span variants={itemVariants} className="font-mono text-2xl text-primary-soft">
+          <motion.span
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 self-center md:self-start rounded-full border border-primary/25 bg-primary/5 px-3.5 py-1.5 font-mono text-sm text-primary-soft"
+          >
+            <span className="size-1.5 rounded-full bg-primary-soft" aria-hidden="true" />
             Hello! I'm
           </motion.span>
 
           <motion.h1
             variants={itemVariants}
-            className="font-display text-4xl sm:text-6xl lg:text-6xl font-semibold tracking-tight text-text"
+            className="font-display text-4xl sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tight text-gradient pb-1"
           >
             Juan Manuel Franco Peña
           </motion.h1>
@@ -67,7 +71,7 @@ const Hero = () => {
 
           <motion.p
             variants={itemVariants}
-            className="text-text-muted text-base sm:text-lg leading-relaxed max-w-md mx-auto md:mx-0"
+            className="text-text-muted text-base sm:text-lg leading-relaxed max-w-lg mx-auto md:mx-0"
           >
            I build modern digital experiences through web development, automation, and artificial intelligence.
           </motion.p>
@@ -79,7 +83,13 @@ const Hero = () => {
             <Button href="#proyectos" icon={FiArrowRight}>
               View projects
             </Button>
-            <Button href="/CV_Juan_Manuel_Franco3.pdf" variant="outline" icon={FiDownload}>
+            <Button
+              href="/CV_Juan_Manuel_Franco3.pdf"
+              variant="outline"
+              icon={FiDownload}
+              download
+              doneLabel="CV downloaded!"
+            >
               Download CV
             </Button>
           </motion.div>

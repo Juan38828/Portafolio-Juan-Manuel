@@ -10,6 +10,7 @@ import Timeline from "./components/Timeline";
 import Certificates from "./components/Certificates";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import Reveal from "./components/Reveal";
 
 /**
  * App
@@ -30,18 +31,37 @@ function App() {
       <Loader isLoading={isLoading} />
 
       <div className="relative min-h-screen overflow-x-hidden bg-bg bg-glow">
-        <Particles className="opacity-60" />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-primary focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-white"
+        >
+          Saltar al contenido
+        </a>
+
+        <Particles />
 
         <Navbar />
 
-        <main className="relative z-10">
+        <main id="main-content" className="relative z-10">
           <Hero />
-          <About />
-          <Skills />
-          <Projects />
-          <Timeline />
-          <Certificates />
-          <Contact />
+          <Reveal>
+            <About />
+          </Reveal>
+          <Reveal>
+            <Skills />
+          </Reveal>
+          <Reveal>
+            <Projects />
+          </Reveal>
+          <Reveal>
+            <Timeline />
+          </Reveal>
+          <Reveal>
+            <Certificates />
+          </Reveal>
+          <Reveal>
+            <Contact />
+          </Reveal>
         </main>
 
         <Footer />

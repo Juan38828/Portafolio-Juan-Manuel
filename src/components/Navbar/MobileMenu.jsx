@@ -57,7 +57,7 @@ const MobileMenu = ({ links, activeId, onNavigate }) => {
               <a
                 href={`#${link.id}`}
                 onClick={onNavigate}
-                className={`font-display text-xl transition-colors ${
+                className={`flex items-center min-h-11 font-display text-xl transition-colors duration-200 ${
                   activeId === link.id
                     ? "text-primary-soft"
                     : "text-text hover:text-primary-soft"

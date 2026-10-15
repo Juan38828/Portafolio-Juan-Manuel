@@ -1,16 +1,24 @@
 import { useEffect, useRef } from "react";
 
+const STAR_COLORS = [
+  [255, 255, 255],
+  [191, 219, 254],
+  [96, 165, 250],
+  [196, 181, 253],
+];
+
 /**
  * Particles
- * Fondo ambiental muy sutil: puntos que flotan lentamente detrás del Hero.
- * Se pausa si el usuario prefiere movimiento reducido.
+ * Cielo estrellado fijo a la pantalla: la cantidad se adapta al área visible,
+ * cada estrella parpadea a su ritmo y las más grandes llevan un halo suave.
+ * Se detiene si la pestaña está oculta y queda estático con movimiento reducido.
  */
-const Particles = ({ count = 40, className = "" }) => {
+const Particles = ({ density = 7000, className = "" }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return undefined;
     const ctx = canvas.getContext("2d");
 
     const prefersReducedMotion = window.matchMedia(
@@ -18,67 +26,106 @@ const Particles = ({ count = 40, className = "" }) => {
     ).matches;
 
     let animationFrame;
-    let particles = [];
-    let width, height;
+    let stars = [];
+    let width = 0;
+    let height = 0;
 
     const resize = () => {
-      width = canvas.offsetWidth;
-      height = canvas.offsetHeight;
-      canvas.width = width * devicePixelRatio;
-      canvas.height = height * devicePixelRatio;
-      ctx.scale(devicePixelRatio, devicePixelRatio);
+      const dpr = window.devicePixelRatio || 1;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    const createParticles = () => {
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        r: Math.random() * 1.4 + 0.4,
-        speed: Math.random() * 0.15 + 0.03,
-        drift: Math.random() * 0.3 - 0.15,
-        opacity: Math.random() * 0.35 + 0.1,
-      }));
+    const createStars = () => {
+      const count = Math.min(260, Math.round((width * height) / density));
+      stars = Array.from({ length: count }, () => {
+        const big = Math.random() < 0.12;
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: big ? Math.random() * 1.2 + 1.3 : Math.random() * 0.9 + 0.35,
+          big,
+          color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+          base: Math.random() * 0.4 + 0.35,
+          twinkle: Math.random() * 0.35 + 0.15,
+          speed: Math.random() * 0.0015 + 0.0006,
+          phase: Math.random() * Math.PI * 2,
+          drift: Math.random() * 0.06 + 0.01,
+        };
+      });
     };
 
-    const draw = () => {
+    const draw = (time) => {
       ctx.clearRect(0, 0, width, height);
-      particles.forEach((p) => {
+
+      for (const s of stars) {
+        const flicker = prefersReducedMotion ? 0 : Math.sin(time * s.speed + s.phase);
+        const alpha = Math.max(0.08, Math.min(1, s.base + flicker * s.twinkle));
+        const [r, g, b] = s.color;
+
+        if (s.big) {
+          const glow = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 5);
+          glow.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${alpha * 0.45})`);
+          glow.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+          ctx.fillStyle = glow;
+          ctx.fillRect(s.x - s.r * 5, s.y - s.r * 5, s.r * 10, s.r * 10);
+        }
+
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(96, 165, 250, ${p.opacity})`;
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
         ctx.fill();
 
         if (!prefersReducedMotion) {
-          p.y -= p.speed;
-          p.x += p.drift * 0.05;
-          if (p.y < -10) p.y = height + 10;
-          if (p.x < -10) p.x = width + 10;
-          if (p.x > width + 10) p.x = -10;
+          s.y -= s.drift;
+          if (s.y < -6) {
+            s.y = height + 6;
+            s.x = Math.random() * width;
+          }
         }
-      });
+      }
+
+      if (!prefersReducedMotion) animationFrame = requestAnimationFrame(draw);
+    };
+
+    const start = () => {
+      cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(draw);
     };
 
-    resize();
-    createParticles();
-    draw();
-
     const handleResize = () => {
       resize();
-      createParticles();
+      createStars();
+      if (prefersReducedMotion) start();
     };
+
+    const handleVisibility = () => {
+      if (prefersReducedMotion) return;
+      if (document.hidden) cancelAnimationFrame(animationFrame);
+      else start();
+    };
+
+    resize();
+    createStars();
+    start();
+
     window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibility);
 
     return () => {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [count]);
+  }, [density]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`pointer-events-none absolute inset-0 w-full h-full ${className}`}
+      className={`pointer-events-none fixed inset-0 z-0 w-full h-full ${className}`}
       aria-hidden="true"
     />
   );

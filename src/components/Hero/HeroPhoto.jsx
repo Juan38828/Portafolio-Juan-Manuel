@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import profilePhoto from "../../assets/images/profile.webp";
 
 /**
@@ -7,6 +7,8 @@ import profilePhoto from "../../assets/images/profile.webp";
  * lentamente detrás — un guiño sutil al mundo de "sistemas" sin ser literal.
  */
 const HeroPhoto = ({ src = profilePhoto, alt = "Juan Manuel Franco" }) => {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div className="relative w-56 h-56 xs:w-64 xs:h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 mx-auto">
       {/* Glow ambiental */}
@@ -22,7 +24,7 @@ const HeroPhoto = ({ src = profilePhoto, alt = "Juan Manuel Franco" }) => {
       {/* Anillo punteado giratorio */}
       <motion.div
         className="absolute inset-[-14px] rounded-full border border-dashed border-primary/30"
-        animate={{ rotate: 360 }}
+        animate={reduceMotion ? undefined : { rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
         aria-hidden="true"
       />
@@ -31,7 +33,7 @@ const HeroPhoto = ({ src = profilePhoto, alt = "Juan Manuel Franco" }) => {
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="relative w-full h-full rounded-full overflow-hidden border border-border shadow-2xl backdrop-blur-sm"
+        className="relative w-full h-full rounded-full overflow-hidden border-2 border-primary/30 shadow-[0_0_60px_-10px_rgba(59,130,246,0.45)]"
       >
         <img
           src={src}
